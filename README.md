@@ -5,11 +5,14 @@ Course material available at https://fullstackopen.com/
 ## Progress tracking:
 
 **Part 0:** _Fundamentals of Web apps_  
- - 0.4  
- - 0.5  
- - 0.6  
+ - [x] 0.4  
+ - [x] 0.5  
+ - [x] 0.6  
  
 **Part 1:** _Introduction to React_  
+- [] 
+- [] 
+- []
 **Part 2:** _Communicating with server_  
 **Part 3:** _Programming a server with NodeJS and Express_  
 **Part 4:** _Testing Express servers, user administration_  
