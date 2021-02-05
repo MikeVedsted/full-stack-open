@@ -10,9 +10,8 @@ Course material available at https://fullstackopen.com/
  - [x] 0.6  
  
 **Part 1:** _Introduction to React_  
-- [] 
-- [] 
-- []
+  - [x] courseInfo  
+ 
 **Part 2:** _Communicating with server_  
 **Part 3:** _Programming a server with NodeJS and Express_  
 **Part 4:** _Testing Express servers, user administration_  
