@@ -11,6 +11,8 @@ Course material available at https://fullstackopen.com/
  
 **Part 1:** _Introduction to React_  
   - [x] courseInfo  
+  - [x] uniCafe  
+  - [x] anecdotes  
  
 **Part 2:** _Communicating with server_  
 **Part 3:** _Programming a server with NodeJS and Express_  
