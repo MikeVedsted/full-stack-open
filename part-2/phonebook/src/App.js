@@ -22,6 +22,7 @@ const App = () => {
     event.preventDefault()
     checkIfExist(newName) >= 0 ? alert(`${newName} is already added to phonebook`) : addToPhonebook()
     setNewName('')
+    setNewNumber('')
   }
 
   return (
