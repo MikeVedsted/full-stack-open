@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "deploy:backend": "git subtree push --prefix part-3/phonebook/ heroku master"
+    "deploy:backend": "git add . && git commit && cd ../.. && git subtree push --prefix part-3/phonebook/ heroku master",
+    "set-remote": "heroku git:remote -a phonebook-v1",
+    "heroku-postbuild": "npm start"
   },
   "author": "",
   "license": "ISC",
