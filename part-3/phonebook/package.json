@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "deploy:backend": "git subtree push --prefix part-3/phonebook/ heroku master"
   },
   "author": "",
   "license": "ISC",
