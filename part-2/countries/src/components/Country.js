@@ -1,7 +1,7 @@
 const Country = ({ country, weather }) => {
   const { name, capital, population, languages, flag } = country
   const { temperature, weather_icons, wind_speed, wind_dir } = weather
-  console.log(weather, country)
+
   return (
     <>
       <h1>{name}</h1>

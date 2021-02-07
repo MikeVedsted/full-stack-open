@@ -4,7 +4,6 @@ import axios from 'axios'
 import Search from './components/Search'
 import Country from './components/Country'
 import CountryList from './components/CountryList'
-import './App.css';
 
 function App() {
   const [searchString, setSearchString] = useState('')
