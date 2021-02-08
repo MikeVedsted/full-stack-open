@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build": "npm run heroku-postbuild",
     "push:git": "git add . && git commit && git push",
     "deploy:subtree": "cd ../../ && git subtree push --prefix part-3/phonebook/ heroku master",
     "deploy": "npm run push:git && npm run set:remote && npm run deploy:subtree",
