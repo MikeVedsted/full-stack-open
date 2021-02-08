@@ -1,14 +1,17 @@
 ### GET ALL 
 GET http://localhost:3001/api/persons
 
-### GET PERSON WITH ID 2
-GET http://localhost:3001/api/persons/2
+### GET PERSON WITH ID 602121083bdf9f631c0ba59f // EXISTING
+GET http://localhost:3001/api/persons/602121083bdf9f631c0ba59f
 
-### GET PERSON WITH ID 99999
+### GET PERSON WITH ID 602121083bdf9f631c0ba50f // NON-EXISTING
+GET http://localhost:3001/api/persons/602121083bdf9f631c0ba50f
+
+### GET PERSON WITH ID 99999 // MAL-FORMED
 GET http://localhost:3001/api/persons/99999
 
-### DELETE PERSON WITH ID 2
-DELETE http://localhost:3001/api/persons/2
+### DELETE PERSON WITH ID xxxx
+DELETE http://localhost:3001/api/persons/602121083bdf9f631c0ba59f
 
 ### CREATE PERSON
 POST http://localhost:3001/api/persons HTTP/1.1
@@ -17,4 +20,13 @@ Content-Type: application/json
 {
     "name": "Test name",
     "number": "111-1111111"
+}
+
+### UPDATE PERSON WITH ID XXXX
+PUT http://localhost:3001/api/persons/60212c1f7e80f555901d092c HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Updated person",
+    "number": "999-999999"
 }

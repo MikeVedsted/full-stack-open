@@ -24,6 +24,9 @@ const App = () => {
       .then(res => {
         setPersons(persons.concat(res))
         setSuccessMessage(`${newName} successfully added to the phone book`)
+      }).catch(error => {
+        console.log('error: ', error)
+        setErrorMessage()
       })
   }
 
