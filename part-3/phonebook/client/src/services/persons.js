@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/persons'
+const baseUrl = 'api/persons'
 
 const getAllPersons = () => {
   const request = axios.get(baseUrl)

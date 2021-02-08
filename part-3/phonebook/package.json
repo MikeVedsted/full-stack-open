@@ -7,11 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "push-to-git": "git add . && git commit && git push",
-    "go:root": "cd ~/Desktop/Dev/full-stack-open/",
     "deploy:subtree": "git subtree push --prefix part-3/phonebook/ heroku master",
-    "deploy": "npm run push-to-git && go:root",
-    "set-remote": "heroku git:remote -a phonebook-v1",
+    "deploy": "npm run push-to-git && npm run set:rempote && npm run deploy:subtree",
+    "set:remote": "heroku git:remote -a phonebook-v1",
     "build-client": "cd client && npm install && npm run build",
     "copy-static-assets": "node copyStaticAssets.js",
     "heroku-postbuild": "npm run build-client && npm run copy-static-assets"
