@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 
 const app = express()
+app.use(express.static('build'))
 
 morgan.token('request-body', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'))
@@ -33,9 +34,9 @@ let persons = [
 ]
 
 
-app.get('/', (request, response) => {
-  response.redirect('/info')
-})
+// app.get('/', (request, response) => {
+//   response.redirect('/info')
+// })
 
 app.get('/info', (request, response) => {
   const now = new Date(Date.now()).toString()
