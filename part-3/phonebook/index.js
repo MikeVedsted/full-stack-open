@@ -9,10 +9,10 @@ const app = express()
 app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
-morgan.token('request-body', (req, res) => JSON.stringify(req.body))
+morgan.token('request-body', (req) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'))
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   const now = new Date(Date.now()).toString()
   Person.find({})
     .then(people => response.send(`<p>Phonebook has info for ${people.length} people</p > <p>${now}</p > `))

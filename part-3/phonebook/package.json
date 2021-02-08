@@ -14,7 +14,8 @@
     "set:remote": "heroku git:remote -a phonebook-v1",
     "build-client": "cd client && npm install && npm run build",
     "copy-static-assets": "node copyStaticAssets.js",
-    "heroku-postbuild": "rm -rf build && npm run build-client && npm run copy-static-assets"
+    "heroku-postbuild": "rm -rf build && npm run build-client && npm run copy-static-assets",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
+    "eslint": "^7.19.0",
     "nodemon": "^2.0.7"
   }
 }
