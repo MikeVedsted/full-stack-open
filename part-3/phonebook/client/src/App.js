@@ -25,8 +25,7 @@ const App = () => {
         setPersons(persons.concat(res))
         setSuccessMessage(`${newName} successfully added to the phone book`)
       }).catch(error => {
-        console.log('error: ', error)
-        setErrorMessage()
+        setErrorMessage(error.response.data.error)
       })
   }
 
@@ -75,7 +74,7 @@ const App = () => {
     setTimeout(() => {
       setErrorMessage(null)
       setSuccessMessage(null)
-    }, 3000)
+    }, 5000)
   }, [errorMessage, successMessage])
 
 

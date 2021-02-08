@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node index.js && cd client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"nodemon index.js \" \"cd client && npm start\"",
     "build": "npm run heroku-postbuild",
     "push:git": "git add . && git commit && git push",
     "deploy:subtree": "cd ../../ && git subtree push --prefix part-3/phonebook/ heroku master",
@@ -24,6 +24,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.15",
+    "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "shelljs": "^0.8.4"
   },
