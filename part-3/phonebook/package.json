@@ -9,7 +9,7 @@
     "dev": "nodemon index.js",
     "deploy:backend": "git add . && git commit && cd ../.. && git subtree push --prefix part-3/phonebook/ heroku master",
     "set-remote": "heroku git:remote -a phonebook-v1",
-    "heroku-postbuild": "npm ci && npm start"
+    "heroku-postbuild": "npm install && npm start"
   },
   "author": "",
   "license": "ISC",
