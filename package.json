@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "deploy:part3:phonebook": "git subtree push --prefix part-3/phonebook/ heroku master"
+  }
+}
