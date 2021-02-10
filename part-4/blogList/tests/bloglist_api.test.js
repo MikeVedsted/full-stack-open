@@ -4,9 +4,16 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
+  await User.deleteMany({})
   await Blog.deleteMany({})
+
+  for (let user of helper.initialUsers) {
+    let userObject = new User(user)
+    await userObject.save()
+  }
 
   for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog)
@@ -73,9 +80,22 @@ describe('posters', () => {
       likes: 1
     }
 
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Valid user', password: 'valid' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: 'valid' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -94,10 +114,22 @@ describe('posters', () => {
       likes: 1
     }
 
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Valid user', password: 'valid' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: 'valid' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
 
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
       .expect(400)
 
     const blogsAtEnd = await helper.blogsInDb()
@@ -110,18 +142,44 @@ describe('posters', () => {
       likes: 1
     }
 
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Valid user', password: 'valid' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: 'valid' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
       .expect(400)
   })
 
   test('saved blog has correct format', async () => {
     const newBlog = { title: 'Correctly saved blog', author: 'Mr. Correct', url: 'www.correctly-saved.com', likes: 99 }
 
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Valid user', password: 'valid' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: 'valid' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
     const savedBlog = await api
       .post('/api/blogs')
       .send(newBlog)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
@@ -135,22 +193,89 @@ describe('posters', () => {
 
 
 describe('deleters', () => {
-  test('a blog can be deleted', async () => {
+  test('a blog will not be deleted, if no token is provided', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
-      .expect(204)
+      .expect(500)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).toContain(blogToDelete.title)
+  })
+
+  test('a blog will not be deleted if user did not create blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Deleter', password: '1234' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: '1234' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(500)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
 
     const blogsAtEnd = await helper.blogsInDb()
 
-    expect(blogsAtEnd).toHaveLength(
-      helper.initialBlogs.length - 1
-    )
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
 
     const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).toContain(blogToDelete.title)
+  })
 
+  test('a blog will be deleted, if the user created it', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+
+    const user = await api
+      .post('/api/users')
+      .send({ username: 'Deleter', password: '1234' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const token = await api
+      .post('/api/login/')
+      .send({ username: user.body.username, password: '1234' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const createdBlog = await api
+      .post('/api/blogs')
+      .send({ title: 'to delete', author: 'to delete', url: 'www.delete.com', likes: 1 })
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogToDelete = createdBlog.body
+
+    const blogsAfterCreating = await helper.blogsInDb()
+    expect(blogsAfterCreating).toHaveLength(blogsAtStart.length + 1)
+
+    const titlesAfterCreating = blogsAfterCreating.map(blog => blog.title)
+    expect(titlesAfterCreating).toContain(blogToDelete.title)
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set({ 'Authorization': `bearer ${token.body.token}`, Accept: 'application/json' })
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
   })
 })

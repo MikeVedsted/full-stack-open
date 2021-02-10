@@ -19,10 +19,10 @@ module.exports = {
       2
     ],
     'eqeqeq': 'error',
-    // 'linebreak-style': [
-    //   'error',
-    //   'unix'
-    // ],
+    'linebreak-style': [
+      'error',
+      'unix'
+    ],
     'quotes': [
       'error',
       'single'
