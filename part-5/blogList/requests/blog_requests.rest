@@ -1,0 +1,39 @@
+### GET ALL
+GET http://localhost:3001/api/blogs
+
+### CREATE BLOG
+POST http://localhost:3001/api/blogs HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1pa2UiLCJpZCI6IjYwMjM5MjE5NmQ4M2U3MjhmNDAxMGQ5OSIsImlhdCI6MTYxMjk0MzkwN30.paYT8-Ad4CsbVOtUX8n-KB_oTFgISx4jo6P_NiX_v6g
+
+{
+  "title": "Test blog",
+  "author": "Test Author",
+  "url": "www.example.com/blog",
+  "likes": 1
+}
+
+### DELETE A BLOG
+DELETE  http://localhost:3001/api/blogs/60239898767c378cdcbe5282
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjYwMjNkNDM3OTU2MDY5MzMzNGJmMGI0ZiIsImlhdCI6MTYxMjk3NjgyOH0.CsISrDVWHEOiU-2Z5Q8Q6Ff0OLZ4EqVFJxnwEF8hWV4
+
+### GET BLOG WITH ID 
+GET http://localhost:3001/api/blogs/6023e2d3f1f05d8e34875002
+
+### UPDATE A BLOG
+PUT http://localhost:3001/api/blogs/6023e2d3f1f05d8e34875002 HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1pa2UiLCJpZCI6IjYwMjM5MjE5NmQ4M2U3MjhmNDAxMGQ5OSIsImlhdCI6MTYxMjk0MzkwN30.paYT8-Ad4CsbVOtUX8n-KB_oTFgISx4jo6P_NiX_v6g
+
+{
+    "title": "Test blog",
+    "author": "Test Author",
+    "url": "www.example.com/blog",
+    "user": {
+      "username": "test",
+      "name": "Test User",
+      "id": "6023d4379560693334bf0b4f"
+    },
+    "likes": 2,
+    "id": "6023e2d3f1f05d8e34875002"
+  }
