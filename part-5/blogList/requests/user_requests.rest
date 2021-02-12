@@ -1,9 +1,9 @@
 ### CREATE USER
-POST http://localhost:3003/api/users HTTP/1.1
+POST http://localhost:3001/api/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "test",
+  "username": "testasd",
   "name": "Test User",
   "password": "test"
 }

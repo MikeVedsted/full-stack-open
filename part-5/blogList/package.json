@@ -10,7 +10,8 @@
     "server:dev": "cross-env NODE_ENV=development nodemon index.js",
     "client:dev": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev $SKIP_PREFLIGHT_CHECK\"",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "start:test": "cross-env NODE_ENV=test nodemon index.js"
   },
   "author": "",
   "license": "ISC",
