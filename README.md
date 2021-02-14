@@ -145,12 +145,12 @@ Course material available at https://fullstackopen.com/
 - [x] 6.21
 
 **Part 7:** _React router, custom hooks, styling app with CSS and webpack_  
-- [ ] 7.1
-- [ ] 7.2
-- [ ] 7.3
-- [ ] 7.4
-- [ ] 7.5
-- [ ] 7.6
+- [x] 7.1
+- [x] 7.2
+- [x] 7.3
+- [x] 7.4
+- [x] 7.5
+- [x] 7.6
 - [ ] 7.7
 - [ ] 7.8
 - [ ] 7.9
