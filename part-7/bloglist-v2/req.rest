@@ -1,0 +1,29 @@
+PUT http://localhost:3001/api/blogs/60262e0baa51863c38b2f75a? HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjYwMjYyZTBhYWE1MTg2M2MzOGIyZjc1OCIsImlhdCI6MTYxMzM5NTU1NX0.eeQrB79r2Qd_uw1d3DwCkWsJsaWcuWy4YMqWSvr19fY
+
+{
+    "title": "Updated blog",
+    "author": "Test Author",
+    "url": "www.example.com/blog",
+    "user": {
+      "username": "test",
+      "name": "Test User",
+      "id": "6023d4379560693334bf0b4f"
+    },
+    "likes": 2,
+    "id": "6023e2d3f1f05d8e34875002",
+    "comments": ["asdasdasd", "aaaa"]
+  }
+
+### get all
+GET http://localhost:3001/api/blogs
+
+### post 
+POST http://localhost:3001/api/blogs/60262e0baa51863c38b2f75a/comments HTTP/1.1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjYwMjYyZTBhYWE1MTg2M2MzOGIyZjc1OCIsImlhdCI6MTYxMzM5NTU1NX0.eeQrB79r2Qd_uw1d3DwCkWsJsaWcuWy4YMqWSvr19fY
+
+{
+    "comment": "TEST COMMENT"
+  }
