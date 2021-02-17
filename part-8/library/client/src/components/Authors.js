@@ -1,5 +1,7 @@
 import React from 'react'
 
+import AuthorForm from './AuthorForm'
+
 const Authors = ({ show, authors }) => {
   const style = { textAlign: 'left' }
   if (!show) {
@@ -27,6 +29,7 @@ const Authors = ({ show, authors }) => {
           )}
         </tbody>
       </table>
+      <AuthorForm authors={authors} />
     </div>
   )
 }

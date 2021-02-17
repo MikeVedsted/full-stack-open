@@ -1,14 +1,5 @@
-import React, { useState } from 'react'
-
-const Books = ({ show, books }) => {
+const Recommendations = ({ show, books, user }) => {
   const style = { table: { tableLayout: 'fixed' }, header: { textAlign: 'left', width: '240px', overflow: 'hidden' } }
-  const [filter, setFilter] = useState('all genres')
-  const filteredBooks = filter === 'all genres' ? books : books.filter(b => b.genres.includes(filter))
-  let genres = ['all genres']
-
-  books.forEach(book => {
-    book.genres.map(genre => genres.includes(genre) ? null : genres = genres.concat(...book.genres))
-  });
 
   if (!show) {
     return null
@@ -16,12 +7,9 @@ const Books = ({ show, books }) => {
 
   return (
     <div>
-      <h2>Books</h2>
-      <div>
-        {genres.map(genre => (
-          <button key={genre} onClick={() => setFilter(genre)} >{genre}</button>
-        ))}
-      </div>
+      <h2>Recommended reading</h2>
+      <p>Hi {user.username}</p>
+      <p>We have the following books in you favorite genre: <strong>{user.favoriteGenre}</strong></p>
       <table>
         <thead>
           <tr>
@@ -31,7 +19,7 @@ const Books = ({ show, books }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredBooks.map(b =>
+          {books.map(b =>
             <tr key={b.title}>
               <td>{b.title}</td>
               <td>{b.author.name}</td>
@@ -45,4 +33,4 @@ const Books = ({ show, books }) => {
   )
 }
 
-export default Books
+export default Recommendations
