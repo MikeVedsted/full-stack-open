@@ -9,7 +9,7 @@ const Recommendations = ({ show, books, user }) => {
     <div>
       <h2>Recommended reading</h2>
       <p>Hi {user.username}</p>
-      <p>We have the following books in you favorite genre: <strong>{user.favoriteGenre}</strong></p>
+      <p>We have the following books in you favorite genre: <strong>{user.favoriteGenre ? user.favoriteGenre : null}</strong></p>
       <table>
         <thead>
           <tr>

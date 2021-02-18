@@ -96,7 +96,10 @@ const resolvers = {
   },
 
   Author: {
-    bookCount: async (root) => Book.find({ author: root.id }).countDocuments()
+    bookCount: async (root) => {
+      console.log('n+1 in author->bookcount')
+      return Book.find({ author: root.id }).countDocuments()
+    }
   },
 
   Book: {

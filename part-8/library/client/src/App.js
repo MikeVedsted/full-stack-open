@@ -15,7 +15,7 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const authorsResult = useQuery(ALL_AUTHORS)
   const booksResult = useQuery(ALL_BOOKS)
-  const userResult = useQuery(CURRENT_USER)
+  const userResult = useQuery(CURRENT_USER, { fetchPolicy: 'no-cache' })
   const [getRecommendations, recommendations] = useLazyQuery(GET_RECOMMENDATIONS, { fetchPolicy: 'no-cache' })
 
   const updateCacheWith = (addedBook) => {
@@ -29,6 +29,10 @@ const App = () => {
       })
     }
   }
+
+  useEffect(() => {
+    userResult.refetch()
+  }, [token, userResult])
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
@@ -56,6 +60,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    setPage('authors')
   }
 
   const handleRecommendations = () => {
@@ -78,6 +83,8 @@ const App = () => {
   if (authorsResult.loading || booksResult.loading || recommendations.loading) {
     return <div>loading...</div>
   }
+
+
 
   return (
     <div>
