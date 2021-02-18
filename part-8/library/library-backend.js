@@ -1,13 +1,14 @@
-const { ApolloServer, UserInputError, AuthenticationError, gql } = require('apollo-server')
-const { v1: uuid } = require('uuid')
+const { ApolloServer, UserInputError, AuthenticationError, PubSub, gql } = require('apollo-server')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
 const User = require('./models/user')
 const jwt = require('jsonwebtoken')
 
+
 const MONGODB_URI = 'mongodb+srv://fullstack:ysQ4K2qXsQUnDsDn@full-stack-open.lvunx.mongodb.net/library-v1?retryWrites=true&w=majority'
 const JWT_SECRET = '9huoanjkd90juisda'
+const pubsub = new PubSub()
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
@@ -71,6 +72,10 @@ const typeDefs = gql`
       password: String!
     ): Token
   }
+
+  type Subscription {
+    bookAdded: Book!
+  }
 `
 
 const resolvers = {
@@ -117,29 +122,34 @@ const resolvers = {
         throw new UserInputError(`Can't add books that aren't published yet.`)
       }
 
+
+      let author = await Author.findOne({ name: args.author })
+
+      if (!author) {
+        author = new Author({ name: args.author })
+        await author.save()
+      }
+
+      const bookObject = {
+        title: args.title,
+        author: author._id,
+        published: Number(args.published),
+        genres: [...args.genres]
+      }
+
+      const newBook = new Book(bookObject)
+
       try {
-        let author = await Author.findOne({ name: args.author })
-
-        if (!author) {
-          author = new Author({ name: args.author })
-          await author.save()
-        }
-
-        const bookObject = {
-          title: args.title,
-          author: author._id,
-          published: Number(args.published),
-          genres: [...args.genres]
-        }
-
-        const newBook = new Book(bookObject)
         await newBook.save()
-        return newBook
+
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
         })
       }
+
+      pubsub.publish('BOOK_ADDED', { bookAdded: newBook })
+      return newBook
     },
 
     editAuthor: async (root, args, context) => {
@@ -196,7 +206,14 @@ const resolvers = {
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     }
 
-  }
+  },
+
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+  },
+
 }
 
 const server = new ApolloServer({
@@ -214,6 +231,7 @@ const server = new ApolloServer({
   }
 })
 
-server.listen().then(({ url }) => {
-  console.log(`Server ready at ${url}`)
+server.listen().then(({ url, subscriptionsUrl }) => {
+  console.log(`HTTP ready at ${url}`)
+  console.log(`WS ready at ${subscriptionsUrl}`)
 })

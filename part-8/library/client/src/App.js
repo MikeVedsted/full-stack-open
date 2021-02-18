@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useQuery, useLazyQuery, useApolloClient } from '@apollo/client';
+import { useQuery, useLazyQuery, useSubscription, useApolloClient } from '@apollo/client';
 
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Recommendations from './components/Recommendations'
 import LoginForm from './components/LoginForm'
-import { ALL_AUTHORS, ALL_BOOKS, CURRENT_USER, GET_RECOMMENDATIONS } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED, CURRENT_USER, GET_RECOMMENDATIONS } from './queries'
 
 const App = () => {
   const client = useApolloClient()
@@ -18,6 +18,26 @@ const App = () => {
   const userResult = useQuery(CURRENT_USER)
   const [getRecommendations, recommendations] = useLazyQuery(GET_RECOMMENDATIONS, { fetchPolicy: 'no-cache' })
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => set.map(o => o.id).includes(object.id)
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) }
+      })
+    }
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      updateCacheWith(addedBook)
+      alert(`added book with the title: ${addedBook.title}`)
+    }
+  })
+
   useEffect(() => {
     const token = localStorage.getItem('library-user')
     if (token) {
@@ -26,12 +46,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    console.log('hope this works....')
     if (recommendations.called) {
-      console.log('did it?')
-      getRecommendations({})
       getRecommendations({ variables: { genre: userResult.data.me.favoriteGenre } })
-      console.log('Maybe!', recommendations.data)
     }
   }, [booksResult])
 
@@ -43,7 +59,6 @@ const App = () => {
   }
 
   const handleRecommendations = () => {
-    console.log('trigger')
     setPage('recommend')
     getRecommendations({ variables: { genre: userResult.data.me.favoriteGenre } })
   }
