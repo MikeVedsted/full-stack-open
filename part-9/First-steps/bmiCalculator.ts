@@ -34,11 +34,11 @@ const calculateBmi = (height: number, weight: number): string => {
     return "Obese Class I (Moderately obese)";
   } else if (bmi < 40) {
     return "Obese Class II (Severely obese)";
-  } else if (bmi < 40) {
+  } else if (bmi > 40) {
     return "Obese Class III (Very severely obese)";
   } else {
     throw new Error(
-      "BMI exceeds the scale. Please check your values or contact your doctor."
+      "BMI breaks the scale. Please check your values or contact your doctor."
     );
   }
 };
@@ -49,3 +49,5 @@ try {
 } catch (error) {
   console.log("Something went wrong: ", error.message);
 }
+
+export default calculateBmi;

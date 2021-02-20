@@ -16,7 +16,7 @@ const parseArray = (args: Array<string>): Array<number> => {
       "Target must be a number. Use the format: npm run calculateExercises <target> <day 1> <day 2> ... <day n>."
     );
   }
-  const userData = args.filter((arg, i) => i > 1);
+  const userData = args.filter((_arg, i) => i > 1);
   return userData.map((arg) => {
     if (isNaN(Number(arg))) {
       throw new Error("Exercise amount must be a number");
@@ -34,7 +34,7 @@ const calculateExercise = (exercise: Array<number>): ReportValues => {
   const success = average >= target;
   let rating: number;
   let ratingDescription: string;
-  let successRate = average / target;
+  const successRate = average / target;
 
   if (successRate < 0.8) {
     rating = 1;
@@ -65,3 +65,5 @@ try {
 } catch (error) {
   console.log("Something went wrong: ", error.message);
 }
+
+export default calculateExercise;
