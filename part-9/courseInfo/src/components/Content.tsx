@@ -1,6 +1,7 @@
 import React from "react";
-import { CoursePart } from "../index";
+
 import Part from "./Part";
+import { CoursePart } from "../types";
 
 const Content: React.FC<{ parts: CoursePart[] }> = ({ parts }) => {
   return (

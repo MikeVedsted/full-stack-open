@@ -1,5 +1,11 @@
 import React from "react";
-import { CoursePart } from "../index";
+import { CoursePart } from "../types";
+
+const assertNever = (value: never): never => {
+  throw new Error(
+    `Unhandled discriminated union member: ${JSON.stringify(value)}`
+  );
+};
 
 const Part: React.FC<{ part: CoursePart }> = ({ part }) => {
   switch (part.name) {
@@ -37,6 +43,8 @@ const Part: React.FC<{ part: CoursePart }> = ({ part }) => {
           <p>instructor {part.instructor}</p>
         </div>
       );
+    default:
+      return assertNever(part);
   }
 };
 
