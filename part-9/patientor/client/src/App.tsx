@@ -7,6 +7,7 @@ import { apiBaseUrl } from "./constants";
 import { useStateValue } from "./state";
 import { Patient } from "./types";
 
+import PatientPage from "./PatientPage";
 import PatientListPage from "./PatientListPage";
 
 const App: React.FC = () => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
           </Button>
           <Divider hidden />
           <Switch>
+            <Route path="/patient/:id" render={() => <PatientPage />} />
             <Route path="/" render={() => <PatientListPage />} />
           </Switch>
         </Container>

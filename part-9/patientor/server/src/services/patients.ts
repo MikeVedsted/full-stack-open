@@ -1,12 +1,12 @@
 import patients from "../../data/patients";
-import { Patient, NonSensitivePatientInfo, NewPatient } from "../../types";
+import { Patient, PublicPatient, NewPatient } from "../../types";
 import { generateId } from "../../utils";
 
 const getPatientInfo = (): Patient[] => {
   return patients;
 };
 
-const getNonSensitivePatientInfo = (): NonSensitivePatientInfo[] => {
+const getNonSensitivePatientInfo = (): PublicPatient[] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
     name,
