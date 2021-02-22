@@ -9,23 +9,54 @@ import {
   TableCell,
   TableRow,
   TableHeader,
+  Button,
 } from "semantic-ui-react";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { setPatientInfo, useStateValue } from "../state";
 import { Patient } from "../types";
 
+import EntryDetails from "./EntryDetails";
+import AddEntryModal from "../Modals/AddEntryModal";
+import { EntryFormValues } from "../Modals/AddEntryModal/AddEntryForm";
+
 const PatientPage: React.FC = () => {
-  const [{ patients }, dispatch] = useStateValue();
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const [{ patients, diagnosis }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   const patient = patients[id];
+
+  const submitNewEntry = async (values: EntryFormValues) => {
+    // try {
+    //   const { data: newPatient } = await axios.post<Patient>(
+    //     `${apiBaseUrl}/patients`,
+    //     values
+    //   );
+    //   dispatch(addPatient(newPatient));
+    //   closeModal();
+    // } catch (e) {
+    //   console.error(e.response.data);
+    //   setError(e.response.data.error);
+    // }
+    console.log(values);
+  };
 
   const fetchFullPatient = async () => {
     try {
       const { data: patientFromApi } = await axios.get<Patient>(
         `${apiBaseUrl}/patients/${id}`
       );
-      dispatch({ type: "SET_PATIENT_INFO", payload: patientFromApi });
+      console.log("response ", patientFromApi);
+      dispatch(setPatientInfo(patientFromApi));
     } catch (e) {
       console.error(e);
     }
@@ -44,6 +75,7 @@ const PatientPage: React.FC = () => {
 
   useEffect(() => {
     !patient.ssn && fetchFullPatient();
+    console.log(patient);
   }, [id]);
 
   return (
@@ -72,13 +104,27 @@ const PatientPage: React.FC = () => {
           </TableRow>
         </TableBody>
       </Table>
-      <Table>
+      <Button onClick={() => openModal()}>Add New Entry</Button>
+      <Table celled>
         <TableHeader>
           <TableRow>
-            <Table.HeaderCell colSpan="2">Entries</Table.HeaderCell>
+            <Table.HeaderCell>Entries</Table.HeaderCell>
           </TableRow>
         </TableHeader>
+        <TableBody>
+          {patient.entries?.map((entry) => (
+            <TableRow key={entry.id}>
+              <EntryDetails entry={entry} />
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
+      <AddEntryModal
+        modalOpen={modalOpen}
+        onSubmit={submitNewEntry}
+        error={error}
+        onClose={closeModal}
+      />
     </div>
   );
 };
