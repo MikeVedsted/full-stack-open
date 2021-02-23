@@ -13,12 +13,12 @@ import {
 } from "semantic-ui-react";
 
 import { apiBaseUrl } from "../constants";
-import { setPatientInfo, useStateValue } from "../state";
-import { Patient } from "../types";
+import { addEntry, setPatientInfo, useStateValue } from "../state";
+import { Entry, Patient } from "../types";
 
 import EntryDetails from "./EntryDetails";
 import AddEntryModal from "../Modals/AddEntryModal";
-import { EntryFormValues } from "../Modals/AddEntryModal/AddEntryForm";
+import { EntryFormValues } from "../Modals/AddEntryModal/OccupationalEntryForm";
 
 const PatientPage: React.FC = () => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
@@ -36,17 +36,17 @@ const PatientPage: React.FC = () => {
   const patient = patients[id];
 
   const submitNewEntry = async (values: EntryFormValues) => {
-    // try {
-    //   const { data: newPatient } = await axios.post<Patient>(
-    //     `${apiBaseUrl}/patients`,
-    //     values
-    //   );
-    //   dispatch(addPatient(newPatient));
-    //   closeModal();
-    // } catch (e) {
-    //   console.error(e.response.data);
-    //   setError(e.response.data.error);
-    // }
+    try {
+      const { data: newEntry } = await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch(addEntry(newEntry, id));
+      closeModal();
+    } catch (e) {
+      console.error(e.response.data);
+      setError(e.response.data.error);
+    }
     console.log(values);
   };
 
