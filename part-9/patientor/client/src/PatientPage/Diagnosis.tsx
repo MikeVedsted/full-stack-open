@@ -1,7 +1,7 @@
 import React from "react";
 import { TableCell } from "semantic-ui-react";
-import { Diagnose } from "../types";
-import { setPatientInfo, useStateValue } from "../state";
+
+import { useStateValue } from "../state";
 
 const Diagnosis: React.FC<{ diagnosisList: string[] | undefined }> = ({
   diagnosisList,

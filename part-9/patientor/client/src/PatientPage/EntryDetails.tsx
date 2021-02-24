@@ -2,7 +2,6 @@ import React from "react";
 
 import { Entry } from "../types";
 import { assertNever } from "../util";
-
 import HospitalDetails from "./HospitalDetails";
 import HealthCheckDetails from "./HealthCheckDetails";
 import OccupationalDetails from "./OccupationalDetails";

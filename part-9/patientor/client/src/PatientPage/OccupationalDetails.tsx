@@ -10,14 +10,13 @@ const OccupationalDetails: React.FC<{
 }> = ({ entry }) => {
   return (
     <>
-      <TableCell>{entry.date}</TableCell>{" "}
+      <TableCell>{entry.date}</TableCell>
       <TableCell>
         <Icon name="doctor" color="blue" />
         {entry.type}
       </TableCell>
       <TableCell>
-        <strong>Employer: </strong> {entry.employerName}
-        <br />
+        <strong>Employer: </strong> {entry.employer}
         <Sickleave period={entry.sickLeave} />
       </TableCell>
       <TableCell>{entry.description}</TableCell>

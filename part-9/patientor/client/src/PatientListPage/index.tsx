@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { Container, Table, Button } from "semantic-ui-react";
 
 import { PatientFormValues } from "../Modals/AddPatientModal/AddPatientForm";
-import AddPatientModal from "../Modals/AddPatientModal";
-import { Patient } from "../types";
-import { apiBaseUrl } from "../constants";
 import HealthRatingBar from "../components/HealthRatingBar";
+import AddPatientModal from "../Modals/AddPatientModal";
 import { addPatient, useStateValue } from "../state";
+import { apiBaseUrl } from "../constants";
+import { Patient } from "../types";
 
 const PatientListPage: React.FC = () => {
   const [{ patients }, dispatch] = useStateValue();

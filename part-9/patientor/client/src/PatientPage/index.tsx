@@ -18,36 +18,38 @@ import { Entry, Patient } from "../types";
 
 import EntryDetails from "./EntryDetails";
 import AddEntryModal from "../Modals/AddEntryModal";
-import { EntryFormValues } from "../Modals/AddEntryModal/OccupationalEntryForm";
+import { AddEntryFormValues } from "../Modals/AddEntryModal/AddEntryForm";
 
 const PatientPage: React.FC = () => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | undefined>();
 
-  const openModal = (): void => setModalOpen(true);
+  const openModal = (): void => {
+    setModalOpen(true);
+  };
 
   const closeModal = (): void => {
     setModalOpen(false);
     setError(undefined);
   };
 
-  const [{ patients, diagnosis }, dispatch] = useStateValue();
+  const [{ patients }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   const patient = patients[id];
 
-  const submitNewEntry = async (values: EntryFormValues) => {
+  const submitNewEntry = async (values: AddEntryFormValues) => {
     try {
       const { data: newEntry } = await axios.post<Entry>(
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
+      console.log("response from submit", newEntry);
       dispatch(addEntry(newEntry, id));
       closeModal();
     } catch (e) {
       console.error(e.response.data);
       setError(e.response.data.error);
     }
-    console.log(values);
   };
 
   const fetchFullPatient = async () => {
@@ -55,7 +57,6 @@ const PatientPage: React.FC = () => {
       const { data: patientFromApi } = await axios.get<Patient>(
         `${apiBaseUrl}/patients/${id}`
       );
-      console.log("response ", patientFromApi);
       dispatch(setPatientInfo(patientFromApi));
     } catch (e) {
       console.error(e);
@@ -75,7 +76,6 @@ const PatientPage: React.FC = () => {
 
   useEffect(() => {
     !patient.ssn && fetchFullPatient();
-    console.log(patient);
   }, [id]);
 
   return (
@@ -104,11 +104,11 @@ const PatientPage: React.FC = () => {
           </TableRow>
         </TableBody>
       </Table>
-      <Button onClick={() => openModal()}>Add New Entry</Button>
+      <Button onClick={() => openModal()}>Add entry</Button>
       <Table celled>
         <TableHeader>
           <TableRow>
-            <Table.HeaderCell>Entries</Table.HeaderCell>
+            <Table.HeaderCell colSpan="6">Entries</Table.HeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>

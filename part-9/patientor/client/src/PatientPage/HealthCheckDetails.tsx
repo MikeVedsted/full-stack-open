@@ -1,9 +1,9 @@
 import React from "react";
 import { Icon, TableCell } from "semantic-ui-react";
 
-import { HealthCheckEntry } from "../types";
 import Diagnosis from "./Diagnosis";
 import HealthRating from "./HealthRating";
+import { HealthCheckEntry } from "../types";
 
 const HealthCheckDetails: React.FC<{ entry: HealthCheckEntry }> = ({
   entry,

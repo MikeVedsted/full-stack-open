@@ -1,4 +1,4 @@
-import { State, StateContext } from "./state";
+import { State } from "./state";
 import { Diagnose, Entry, Patient } from "../types";
 
 export type Action =
@@ -24,8 +24,6 @@ export type Action =
     };
 
 export const reducer = (state: State, action: Action): State => {
-  console.log("STATE :", state);
-  console.log("ACTION :", action);
   switch (action.type) {
     case "SET_PATIENT_LIST":
       return {

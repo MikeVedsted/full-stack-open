@@ -12,17 +12,15 @@ const HospitalDetails: React.FC<{ entry: HospitalEntry }> = ({ entry }) => {
         <Icon name="hospital symbol" color="blue" />
         {entry.type}
       </TableCell>
-      <TableCell>{entry.description}</TableCell>
-      <Diagnosis diagnosisList={entry.diagnosisCodes} />
+      
       <TableCell>
         <strong>Discharge:</strong>
-        <br />
         {entry.discharge.date}
-        <br />
         <strong>Criteria: </strong>
-        <br />
         {entry.discharge.criteria}
       </TableCell>
+      <TableCell>{entry.description}</TableCell>
+      <Diagnosis diagnosisList={entry.diagnosisCodes} />
       <TableCell>{entry.specialist}</TableCell>
     </>
   );
