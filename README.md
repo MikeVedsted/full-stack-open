@@ -3,10 +3,10 @@
 Course material available at https://fullstackopen.com/
 
 ## Links to other parts
-Additional repos are:
-Part 10: https://github.com/MikeVedsted/repo-rater
-Part 11.1: https://github.com/MikeVedsted/full-stack-open-pokedex
-Part 11.2: https://github.com/MikeVedsted/full-stack-open-part-11-phonebook
+Additional repos are:  
+**Part 10:** https://github.com/MikeVedsted/repo-rater  
+**Part 11.1:** https://github.com/MikeVedsted/full-stack-open-pokedex  
+**Part 11.2:** https://github.com/MikeVedsted/full-stack-open-part-11-phonebook  
 
 ## Progress tracking:
 
